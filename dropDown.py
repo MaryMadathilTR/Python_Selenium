@@ -3,11 +3,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 import time
+from selenium.webdriver.support.select import Select
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
-
-browserName = "edge"
+browserName = "chrome"
 
 if browserName == "chrome":
     chrome_options = Options()
@@ -25,14 +25,29 @@ else:
     raise Exception("Driver is not found")
 
 driver.maximize_window()
-driver.implicitly_wait(10)
-driver.get("https://www.google.com/")
+driver.implicitly_wait(20)
+driver.get("https://www.orangehrm.com/")
 
-driver.find_element(By.NAME, "q").send_keys("Automation step by step")
-time.sleep(2)
-driver.find_element(By.NAME, "btnK").click()
-time.sleep(2)
+time.sleep(10)
+accept_cookies = driver.find_element(By.XPATH,"//div[@class='optanon-alert-box-button-middle accept-cookie-container']")
+accept_cookies.click()
+book_a_free_demo_button = driver.find_element(By.XPATH,"//div[@class='d-flex web-menu-btn']//li[1]/a[1]")
+book_a_free_demo_button.click()
+time.sleep(5)
+
+def select_value_from_dropdown(element, value):
+    select = Select(element)
+    select.select_by_visible_text(value)
+
+select_country = driver.find_element(By.CSS_SELECTOR,"#Form_getForm_Country")
+# select = Select(select_country)
+#
+# select.select_by_visible_text("India")
+
+select_value_from_dropdown(select_country,"India")
+
+time.sleep(5)
+
+select.select_by_index(3)
+time.sleep(5)
 driver.quit()
-print("Test Completed")
-
-# Path: test.
